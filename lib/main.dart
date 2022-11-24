@@ -17,9 +17,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Match BM',
-      theme: ThemeData(
-        primarySwatch: MaterialColor(0xff8585ff, color),
-      ),
+      theme: ThemeData(primarySwatch: Colors.pink),
       home: const Accueil('Match BM'),
     );
   }
@@ -33,8 +31,28 @@ class Accueil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
+      bottomNavigationBar: BottomAppBar(
+        color: const Color(0xffff5757),
+        child: Stack(
+          alignment: Alignment.center,
+          children: const [
+            Icon(
+              Icons.home,
+              color: Color(0xffffebeb),
+              size: 50,
+            ),
+            Icon(
+              Icons.account_circle,
+              color: Color(0xffffebeb),
+              size: 50,
+            ),
+            Icon(
+              Icons.settings,
+              color: Color(0xffffebeb),
+              size: 50,
+            )
+          ],
+        ),
       ),
       body: Center(
         child: Column(
