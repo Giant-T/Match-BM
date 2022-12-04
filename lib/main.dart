@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:match_bm/pages/home.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -9,6 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Match BM',
       theme: ThemeData(
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
             color: Color(0xffff5757),
           ),
           iconTheme: const IconThemeData(color: Color(0xffffebeb))),
-      home: const Accueil('Match BM'),
+      home: const Home(),
     );
   }
 }
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
 class Accueil extends StatelessWidget {
   final String title;
 
-  const Accueil(this.title);
+  const Accueil({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
