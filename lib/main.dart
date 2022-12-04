@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
           primaryColor: primaryColor,
           progressIndicatorTheme: const ProgressIndicatorThemeData(
               color: primaryColor, linearTrackColor: lightColor),
-          inputDecorationTheme: const InputDecorationTheme(
-              border: OutlineInputBorder(), filled: true),
+          inputDecorationTheme:
+              const InputDecorationTheme(border: OutlineInputBorder()),
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(

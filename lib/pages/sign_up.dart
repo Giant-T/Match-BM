@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:match_bm/components/app_button.dart';
 import 'package:match_bm/components/page_title.dart';
@@ -15,19 +14,19 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: SizedBox.expand(
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+            child: Padding(
+      padding: const EdgeInsets.all(8),
+      child: Wrap(
+          runSpacing: 20,
+          runAlignment: WrapAlignment.center,
+          alignment: WrapAlignment.center,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            const Padding(
-                padding: EdgeInsets.fromLTRB(10, 60, 10, 10), child: LinearProgressIndicator()),
-            const Spacer(),
+            const LinearProgressIndicator(),
             const PageTitle(text: "Quel est votre prénom?"),
-            const Padding(padding: EdgeInsets.all(10), child: TextField()),
-            const Spacer(),
+            const TextField(),
             AppButton(text: "Suivant", onPressed: () {}),
-            const Spacer()
           ]),
-    ));
+    )));
   }
 }
