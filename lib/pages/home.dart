@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:match_bm/components/app_button.dart';
+import 'package:match_bm/components/page_title.dart';
+import 'package:match_bm/pages/sign_up.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,10 +14,14 @@ class Home extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text("Accueil",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          const PageTitle(text: "Accueil"),
           AppButton(text: "Se connecter", onPressed: () {}),
-          AppButton(text: "S'inscrire", onPressed: () {})
+          AppButton(
+              text: "S'inscrire",
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const SignUp()));
+              })
         ],
       )),
     );

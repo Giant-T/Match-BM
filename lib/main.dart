@@ -10,12 +10,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const Color primaryColor = Color(0xffff5757);
+    const Color lightColor = Color(0xffffebeb);
 
     return MaterialApp(
       title: 'Match BM',
       theme: ThemeData(
           fontFamily: 'Verdana',
-          primaryColor: const Color(0xffff5757),
+          primaryColor: primaryColor,
+          progressIndicatorTheme: const ProgressIndicatorThemeData(
+              color: primaryColor, linearTrackColor: lightColor),
+          inputDecorationTheme: const InputDecorationTheme(
+              border: OutlineInputBorder(), filled: true),
           elevatedButtonTheme: ElevatedButtonThemeData(
               style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
