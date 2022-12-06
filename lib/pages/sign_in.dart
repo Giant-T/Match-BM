@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:match_bm/components/app_button.dart';
 import 'package:match_bm/components/page_title.dart';
@@ -25,10 +24,11 @@ class _SignInState extends State<SignIn> {
           children: [
             const PageTitle(text: "Connexion"),
             const TextField(
-              decoration: InputDecoration(hintText: "courriel"),
+              decoration: InputDecoration(labelText: "Courriel"),
             ),
             const TextField(
-              decoration: InputDecoration(hintText: "mot de passe"),
+              obscureText: true,
+              decoration: InputDecoration(labelText: "Mot de passe"),
             ),
             AppButton(text: "Se connecter", onPressed: () {}),
           ],
