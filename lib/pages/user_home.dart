@@ -4,6 +4,8 @@ import 'package:match_bm/components/loader.dart';
 import 'package:match_bm/database/firestore.dart';
 import 'package:match_bm/models/user_model.dart';
 
+import '../models/page_container.dart';
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class UserHome extends StatelessWidget {
@@ -24,28 +26,7 @@ class UserHome extends StatelessWidget {
             return const Loader();
           }
 
-          return Scaffold(
-            bottomNavigationBar: BottomAppBar(
-              color: const Color(0xffff5757),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  Icon(
-                    Icons.home,
-                    size: 50,
-                  ),
-                  Icon(
-                    Icons.account_circle,
-                    size: 50,
-                  ),
-                  Icon(
-                    Icons.settings,
-                    size: 50,
-                  )
-                ],
-              ),
-            ),
+          return PageContainer(
             body: Center(
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
