@@ -17,24 +17,15 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -52,11 +43,40 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCXA_XJdSP7xO6BsewB3vAI4H7h7l669uc',
+    appId: '1:67744368302:web:74639a715bfff2bec28f3f',
+    messagingSenderId: '67744368302',
+    projectId: 'match-bm',
+    authDomain: 'match-bm.firebaseapp.com',
+    storageBucket: 'match-bm.appspot.com',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAlZR4O_oY8gJQmfqeYZK1vDfUskJ5cpr4',
     appId: '1:67744368302:android:b265df2aebf90b4dc28f3f',
     messagingSenderId: '67744368302',
     projectId: 'match-bm',
     storageBucket: 'match-bm.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyCY0YF4jGWYlVG1b9ZsxzVSaCSsu9aeOZc',
+    appId: '1:67744368302:ios:ed349de02e15a977c28f3f',
+    messagingSenderId: '67744368302',
+    projectId: 'match-bm',
+    storageBucket: 'match-bm.appspot.com',
+    iosClientId: '67744368302-049ode5j0iu4gikd4a22s176s13rb26n.apps.googleusercontent.com',
+    iosBundleId: 'com.example.matchBm',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyCY0YF4jGWYlVG1b9ZsxzVSaCSsu9aeOZc',
+    appId: '1:67744368302:ios:ed349de02e15a977c28f3f',
+    messagingSenderId: '67744368302',
+    projectId: 'match-bm',
+    storageBucket: 'match-bm.appspot.com',
+    iosClientId: '67744368302-049ode5j0iu4gikd4a22s176s13rb26n.apps.googleusercontent.com',
+    iosBundleId: 'com.example.matchBm',
   );
 }

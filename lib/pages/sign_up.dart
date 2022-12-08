@@ -7,6 +7,8 @@ import 'package:match_bm/database/firestore.dart';
 
 import '../models/user_model.dart';
 
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
 
@@ -22,7 +24,7 @@ class _SignUpState extends State<SignUp> {
 
   // Variable pour le form
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String? _passwordError = null;
+  String? _passwordError;
 
   @override
   void initState() {
@@ -33,20 +35,21 @@ class _SignUpState extends State<SignUp> {
     _passwordController = TextEditingController();
   }
 
-  void submitUser() async {
+  void submitUser() {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
     try {
-      UserCredential user = await FirebaseAuth.instance
+      _auth
           .createUserWithEmailAndPassword(
-              email: _emailController.value.text,
-              password: _passwordController.value.text);
+              email: _emailController.text, password: _passwordController.text)
+          .then((value) {
+        UserModel userModel = UserModel(_firstNameController.text,
+            _lastNameController.text, _emailController.text);
+        FireStore.insertUser(userModel);
+      });
 
-      UserModel userModel = UserModel(_firstNameController.value.text,
-          _lastNameController.value.text, _emailController.value.text);
-      FireStore.insertUser(userModel);
       _passwordError = null;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -129,7 +132,11 @@ class _SignUpState extends State<SignUp> {
                             if (value == null || value.isEmpty) {
                               return "Le champ ne peut être vide.";
                             }
-                            
+
+                            if (value.length < 7) {
+                              return "Le champ doit contenir plus de 6 caractères.";
+                            }
+
                             return null;
                           },
                           obscureText: true,
