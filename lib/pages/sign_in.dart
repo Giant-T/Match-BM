@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:match_bm/components/app_button.dart';
 import 'package:match_bm/components/page_title.dart';
-import 'package:match_bm/database/firestore.dart';
 import 'package:match_bm/pages/user_home.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -47,7 +46,7 @@ class _SignInState extends State<SignIn> {
               email: _emailController.text, password: _passwordController.text)
           .then((value) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const UserHome()));
+            context, MaterialPageRoute(builder: (context) => UserHome()));
       });
     } on FirebaseAuthException catch (e) {
       print(e.code);
@@ -71,11 +70,30 @@ class _SignInState extends State<SignIn> {
                 const PageTitle(text: "Connexion"),
                 TextFormField(
                   controller: _emailController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Le champ ne peut être vide.";
+                    }
+
+                    return null;
+                  },
                   decoration: const InputDecoration(labelText: "Courriel"),
                 ),
-                const TextField(
+                TextFormField(
                   obscureText: true,
-                  decoration: InputDecoration(labelText: "Mot de passe"),
+                  controller: _passwordController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Le champ ne peut être vide.";
+                    }
+
+                    if (value.length < 7) {
+                      return "Le champ doit contenir plus de 6 caractères.";
+                    }
+
+                    return null;
+                  },
+                  decoration: const InputDecoration(labelText: "Mot de passe"),
                 ),
                 AppButton(text: "Se connecter", onPressed: logIn),
               ],

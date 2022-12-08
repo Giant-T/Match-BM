@@ -57,11 +57,11 @@ class _SignUpState extends State<SignUp> {
           .createUserWithEmailAndPassword(
               email: _emailController.text, password: _passwordController.text)
           .then((value) {
-        UserModel userModel = UserModel(_firstNameController.text,
-            _lastNameController.text, _emailController.text);
-        FireStore.insertUser(userModel);
+        UserModel userModel = UserModel(_emailController.text,
+            _firstNameController.text, _lastNameController.text);
+        FireStore.insertUser(userModel, value.user!.uid);
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const UserHome()));
+            context, MaterialPageRoute(builder: (context) => UserHome()));
       });
 
       _passwordError = null;

@@ -6,7 +6,16 @@ class FireStore {
     return FirebaseFirestore.instance.collection(UserModel.collection);
   }
 
-  static void insertUser(UserModel user) {
-    _userCollection.add(user.toMap());
+  static void insertUser(UserModel user, String uid) async {
+    await _userCollection.doc(uid).set(user.toMap());
+  }
+
+  static Future<UserModel?> getUser(String uid) async {
+    return _userCollection.doc(uid).get().then((value) {
+      if (!value.exists) return null;
+
+      return UserModel(
+          value.get("email"), value.get("firstname"), value.get("lastname"));
+    });
   }
 }
