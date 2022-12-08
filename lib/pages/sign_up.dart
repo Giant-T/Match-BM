@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:match_bm/components/app_button.dart';
 import 'package:match_bm/components/page_title.dart';
 import 'package:match_bm/database/firestore.dart';
+import 'package:match_bm/pages/user_home.dart';
 
 import '../models/user_model.dart';
 
@@ -29,10 +30,21 @@ class _SignUpState extends State<SignUp> {
   @override
   void initState() {
     super.initState();
+
     _firstNameController = TextEditingController();
     _lastNameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
   }
 
   void submitUser() {
@@ -48,6 +60,8 @@ class _SignUpState extends State<SignUp> {
         UserModel userModel = UserModel(_firstNameController.text,
             _lastNameController.text, _emailController.text);
         FireStore.insertUser(userModel);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => const UserHome()));
       });
 
       _passwordError = null;
@@ -56,21 +70,6 @@ class _SignUpState extends State<SignUp> {
         _passwordError = "Le mot de passe ne respecte pas les exigences.";
       }
     }
-  }
-
-  @override
-  void setState(VoidCallback fn) {
-    super.setState(fn);
-  }
-
-  @override
-  void dispose() {
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-
-    super.dispose();
   }
 
   @override
