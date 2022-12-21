@@ -23,7 +23,7 @@ class PageContainer extends StatelessWidget {
               size: 50,
             ),
             Icon(
-              Icons.settings,
+              Icons.menu,
               size: 50,
             )
           ],
