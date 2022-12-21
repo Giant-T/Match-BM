@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:match_bm/components/app_button.dart';
+import 'package:match_bm/components/children_list.dart';
 import 'package:match_bm/components/loader.dart';
 import 'package:match_bm/components/page_title.dart';
 import 'package:match_bm/database/firestore.dart';
 import 'package:match_bm/models/user_model.dart';
-import 'package:sprintf/sprintf.dart';
+import 'package:match_bm/pages/add_child.dart';
 
 import '../models/page_container.dart';
 
@@ -36,9 +38,17 @@ class UserHome extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   PageTitle(
-                    text: sprintf("Bonjour %s %s!",
-                        [userInfo!.firstname, userInfo!.lastname]),
-                  )
+                      text:
+                          "Bonjour ${userInfo!.firstname} ${userInfo!.lastname}!"),
+                  ChildrenList(),
+                  AppButton(
+                      text: "Ajouter un enfant",
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AddChild()));
+                      })
                 ]),
           ));
         }));

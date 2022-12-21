@@ -1,5 +1,5 @@
 class UserModel {
-  static String collection = "user";
+  static const String collection = "user";
   String email;
   String firstname;
   String lastname;
