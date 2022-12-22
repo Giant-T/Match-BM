@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:match_bm/child_selector.dart';
 import 'package:match_bm/components/app_button.dart';
@@ -50,8 +51,10 @@ class _SignInState extends State<SignIn> {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => UserHome()));
       });
-    } on FirebaseAuthException catch (e) {
-      print(e.code);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 

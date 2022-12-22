@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:match_bm/components/app_button.dart';
 import 'package:match_bm/components/page_title.dart';
@@ -70,6 +71,10 @@ class _SignUpState extends State<SignUp> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         _passwordError = "Le mot de passe ne respecte pas les exigences.";
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
       }
     }
   }
