@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:match_bm/models/child.dart';
 import 'package:match_bm/models/user_model.dart';
 
@@ -65,16 +66,19 @@ class FireStore {
   }
 
   /// Cherche un enfant aleatoire qui n'est pas du meme parent.
-  static Future<Child?> getMatch(String parentUid, List<String> likes) async {
+  static Future<Child?> getBachelors(
+      String parentUid, List<String> likes) async {
     return childCollection
         .where("parent", isNotEqualTo: userCollection.doc(parentUid))
         .where("")
         .get()
         .then((value) {
-      if (value.docs.isEmpty) return null;
+      if (value.size == 0) return null;
 
       var values =
           value.docs.where((element) => !likes.contains(element.id)).toList();
+
+      if (values.isEmpty) return null;
 
       Random rng = Random();
 
@@ -96,10 +100,50 @@ class FireStore {
     });
   }
 
-  static Future<void> likeChild(Child selectedChild, Child other) async {
+  /// Ajoute un like a un enfant.
+  static Future<Child> likeChild(Child selectedChild, Child other) async {
     selectedChild.likes.add(other.ref);
     childCollection
         .doc(selectedChild.ref)
         .update({"likes": selectedChild.likes});
+
+    return selectedChild;
+  }
+
+  /// Retourne tous les matches de l'enfant.
+  static Future<List<Child>> getMatches(Child selectedChild) async {
+    return childCollection
+        .where(FieldPath.documentId, whereIn: selectedChild.likes)
+        .get()
+        .then((value) {
+      if (value.docs.isEmpty) return List.empty();
+
+      var matches = value.docs.where((element) {
+        List<String> likes = element.get("likes").isEmpty
+            ? List<String>.empty(growable: true)
+            : element
+                .get("likes")
+                .map<String>((element) => element.toString())
+                .toList(growable: true);
+
+        return likes.contains(selectedChild.ref);
+      });
+
+      return matches
+          .map<Child>((c) => Child(
+              c.get("firstname"),
+              c.get("lastname"),
+              c.get("description"),
+              c.get("birthdate"),
+              c.get("parent"),
+              c.get("likes").isEmpty
+                  ? List<String>.empty(growable: true)
+                  : c
+                      .get("likes")
+                      .map<String>((element) => element.toString())
+                      .toList(growable: true),
+              ref: c.id))
+          .toList();
+    });
   }
 }

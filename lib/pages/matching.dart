@@ -20,9 +20,9 @@ class Matching extends StatefulWidget {
 class _MatchingState extends State<Matching> {
   Child? match;
 
-  Future<void> getMatch() async {
+  Future<void> getBachelors() async {
     try {
-      return FireStore.getMatch(
+      return FireStore.getBachelors(
               _auth.currentUser!.uid, ChildSelector().child.value!.likes)
           .then((value) {
         setState(() {
@@ -39,8 +39,10 @@ class _MatchingState extends State<Matching> {
   Future<void> like() async {
     try {
       if (match != null) {
-        FireStore.likeChild(ChildSelector().child.value!, match!)
-            .then((value) => getMatch());
+        FireStore.likeChild(ChildSelector().child.value!, match!).then((value) {
+          ChildSelector().child.value = value;
+          getBachelors();
+        });
       }
     } catch (e) {
       if (kDebugMode) {
@@ -52,11 +54,18 @@ class _MatchingState extends State<Matching> {
   @override
   void initState() {
     super.initState();
-    getMatch();
+    getBachelors();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (match == null) {
+      return const PageContainer(
+          body: Center(
+        child: PageTitle(text: "Aucun célibataire en vue!"),
+      ));
+    }
+
     return PageContainer(
         body: Padding(
             padding: const EdgeInsets.all(8),
@@ -72,7 +81,7 @@ class _MatchingState extends State<Matching> {
                   child: Container(
                     alignment: Alignment.center,
                     color: Colors.blueGrey[400],
-                    child: const PageTitle(text: "Image Enfant"),
+                    child: PageTitle(text: match!.description),
                   ),
                 ),
                 Text(match == null
@@ -83,7 +92,7 @@ class _MatchingState extends State<Matching> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     IconButton(
-                        onPressed: getMatch,
+                        onPressed: getBachelors,
                         icon: const Icon(
                           Icons.close,
                           color: Colors.black,

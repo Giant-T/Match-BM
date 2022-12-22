@@ -3,6 +3,7 @@ import 'package:match_bm/child_selector.dart';
 import 'package:match_bm/pages/matching.dart';
 import 'package:match_bm/pages/user_home.dart';
 
+import '../pages/match_list.dart';
 import 'child.dart';
 
 class PageContainer extends StatelessWidget {
@@ -54,7 +55,12 @@ class PageContainer extends StatelessWidget {
               icon: const Icon(
                 Icons.menu,
               ),
-              onPressed: () {},
+              onPressed: () {
+                if (ChildSelector().child.value != null) {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: ((context) => const MatchList())));
+                }
+              },
             )
           ],
         ),
