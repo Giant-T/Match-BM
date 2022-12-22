@@ -9,7 +9,7 @@ class Child {
   String description;
   Timestamp birthdate;
   DocumentReference parent;
-  List<DocumentReference> likes;
+  List<String> likes;
 
   Child(this.firstname, this.lastname, this.description, this.birthdate,
       this.parent, this.likes,

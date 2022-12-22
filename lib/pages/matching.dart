@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:match_bm/components/loader.dart';
+import 'package:match_bm/components/page_title.dart';
 import 'package:match_bm/models/page_container.dart';
 
+import '../child_selector.dart';
 import '../database/firestore.dart';
 import '../models/child.dart';
 
@@ -19,32 +20,85 @@ class Matching extends StatefulWidget {
 class _MatchingState extends State<Matching> {
   Child? match;
 
-  Future<Child?> getMatch() async {
-    return FireStore.getMatch(_auth.currentUser!.uid).then((value) {
-      match = value;
-      return value;
-    });
+  Future<void> getMatch() async {
+    try {
+      return FireStore.getMatch(
+              _auth.currentUser!.uid, ChildSelector().child.value!.likes)
+          .then((value) {
+        setState(() {
+          match = value;
+        });
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  Future<void> like() async {
+    try {
+      if (match != null) {
+        FireStore.likeChild(ChildSelector().child.value!, match!)
+            .then((value) => getMatch());
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
   }
 
   @override
   void initState() {
     super.initState();
+    getMatch();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: getMatch(),
-        initialData: null,
-        builder: ((context, snapshot) {
-          if (!snapshot.hasData) {
-            return const Loader();
-          }
-
-          return PageContainer(
-              body: Column(
-            children: [Text("${match!.firstname} ${match!.lastname}")],
-          ));
-        }));
+    return PageContainer(
+        body: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Wrap(
+              runSpacing: 20,
+              runAlignment: WrapAlignment.center,
+              alignment: WrapAlignment.center,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                SizedBox(
+                  height: 500,
+                  width: MediaQuery.of(context).size.width,
+                  child: Container(
+                    alignment: Alignment.center,
+                    color: Colors.blueGrey[400],
+                    child: const PageTitle(text: "Image Enfant"),
+                  ),
+                ),
+                Text(match == null
+                    ? "Aucun enfant trouvé."
+                    : "${match!.firstname} ${match!.lastname}"),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                        onPressed: getMatch,
+                        icon: const Icon(
+                          Icons.close,
+                          color: Colors.black,
+                          size: 30,
+                        )),
+                    IconButton(
+                        onPressed: like,
+                        icon: const Icon(
+                          Icons.favorite,
+                          color: Color(0xffff5757),
+                          size: 30,
+                        ))
+                  ],
+                )
+              ],
+            )));
   }
 }

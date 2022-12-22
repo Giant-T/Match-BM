@@ -44,8 +44,11 @@ class FireStore {
               c.get("birthdate"),
               c.get("parent"),
               c.get("likes").isEmpty
-                  ? List<DocumentReference>.empty()
-                  : c.get("likes"),
+                  ? List<String>.empty(growable: true)
+                  : c
+                      .get("likes")
+                      .map<String>((element) => element.toString())
+                      .toList(growable: true),
               ref: c.id))
           .toList();
     });
@@ -62,18 +65,20 @@ class FireStore {
   }
 
   /// Cherche un enfant aleatoire qui n'est pas du meme parent.
-  static Future<Child?> getMatch(String parentUid) async {
+  static Future<Child?> getMatch(String parentUid, List<String> likes) async {
     return childCollection
         .where("parent", isNotEqualTo: userCollection.doc(parentUid))
+        .where("")
         .get()
         .then((value) {
       if (value.docs.isEmpty) return null;
 
+      var values =
+          value.docs.where((element) => !likes.contains(element.id)).toList();
+
       Random rng = Random();
 
-      var c = value.docs[rng.nextInt(value.docs.length - 1)];
-
-      print(c);
+      var c = values[rng.nextInt(values.length)];
 
       return Child(
           c.get("firstname"),
@@ -82,9 +87,19 @@ class FireStore {
           c.get("birthdate"),
           c.get("parent"),
           c.get("likes").isEmpty
-              ? List<DocumentReference>.empty()
-              : c.get("likes"),
+              ? List<String>.empty(growable: true)
+              : c
+                  .get("likes")
+                  .map<String>((element) => element.toString())
+                  .toList(growable: true),
           ref: c.id);
     });
+  }
+
+  static Future<void> likeChild(Child selectedChild, Child other) async {
+    selectedChild.likes.add(other.ref);
+    childCollection
+        .doc(selectedChild.ref)
+        .update({"likes": selectedChild.likes});
   }
 }

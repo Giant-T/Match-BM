@@ -39,11 +39,15 @@ class PageContainer extends StatelessWidget {
             ),
             IconButton(
               icon: const Icon(
-                Icons.account_circle,
+                Icons.favorite,
               ),
               onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: ((context) => const Matching())));
+                if (ChildSelector().child.value != null) {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => const Matching())));
+                }
               },
             ),
             IconButton(
