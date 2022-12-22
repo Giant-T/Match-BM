@@ -60,7 +60,7 @@ class _SignUpState extends State<SignUp> {
         UserModel userModel = UserModel(_emailController.text,
             _firstNameController.text, _lastNameController.text);
         FireStore.insertUser(userModel, value.user!.uid);
-        Navigator.push(
+        Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => UserHome()));
       });
 

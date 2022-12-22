@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:match_bm/child_selector.dart';
 import 'package:match_bm/database/firestore.dart';
 import 'package:match_bm/models/child.dart';
 
@@ -30,22 +31,28 @@ class ChildrenList extends StatelessWidget {
                     final child = children[index];
 
                     return Dismissible(
-                      key: Key(index.toString()),
-                      onDismissed: (direction) async {
-                        FireStore.removeChild(child).then((value) {
-                          children.removeAt(index);
-                        });
-                      },
-                      child: Text(
-                        "${child.firstname} ${child.lastname}",
-                        style: const TextStyle(
-                            fontSize: 20),
-                      ),
-                    );
+                        key: Key(index.toString()),
+                        onDismissed: (direction) async {
+                          FireStore.deleteChild(child).then((value) {
+                            ChildSelector().child.value = null;
+                            children.removeAt(index);
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: InkWell(
+                              onTap: () {
+                                ChildSelector().child.value = child;
+                              },
+                              child: Text(
+                                "${child.firstname} ${child.lastname}",
+                                style: const TextStyle(fontSize: 20),
+                              )),
+                        ));
                   },
                   separatorBuilder: (BuildContext context, int index) =>
                       const Divider(
-                        height: 0.1,
+                        height: 0.3,
                       )));
         });
   }

@@ -40,8 +40,6 @@ dependencies:
   email_validator: ^2.1.17
   sprintf: ^7.0.0
   intl: ^0.17.0
-  cloud_firestore_odm: ^1.0.0-dev.43
-  json_annotation: ^4.7.0
 
 dev_dependencies:
   flutter_test:
@@ -53,9 +51,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  build_runner: ^2.3.3
-  cloud_firestore_odm_generator: ^1.0.0-dev.43
-  json_serializable: ^6.5.4
+  build_runner: ^2.3.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

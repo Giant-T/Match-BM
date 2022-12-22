@@ -11,10 +11,12 @@ class FireStore {
     return FirebaseFirestore.instance.collection(Child.collection);
   }
 
+  /// Insert un utilisateur dans la base de donnees
   static void insertUser(UserModel user, String uid) async {
     await userCollection.doc(uid).set(user.toMap());
   }
 
+  /// Recherche l'utilisateur avec ce uid
   static Future<UserModel?> getUser(String uid) async {
     return userCollection.doc(uid).get().then((value) {
       if (!value.exists) return null;
@@ -24,6 +26,7 @@ class FireStore {
     });
   }
 
+  /// Recherche tous les enfants avec ce parent
   static Future<List<Child>> getChildren(String parentUid) async {
     return childCollection
         .where("parent", isEqualTo: userCollection.doc(parentUid))
@@ -46,11 +49,13 @@ class FireStore {
     });
   }
 
+  /// Insert un enfant dans la base de donnees
   static Future<void> insertChild(Child child) async {
     await childCollection.doc().set(child.toMap());
   }
 
-  static Future<void> removeChild(Child child) async {
+  /// Supprime un enfant de la base de donnees
+  static Future<void> deleteChild(Child child) async {
     await childCollection.doc(child.ref).delete();
   }
 }

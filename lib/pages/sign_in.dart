@@ -45,7 +45,7 @@ class _SignInState extends State<SignIn> {
           .signInWithEmailAndPassword(
               email: _emailController.text, password: _passwordController.text)
           .then((value) {
-        Navigator.push(
+        Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => UserHome()));
       });
     } on FirebaseAuthException catch (e) {
