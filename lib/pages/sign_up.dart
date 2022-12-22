@@ -6,6 +6,7 @@ import 'package:match_bm/components/page_title.dart';
 import 'package:match_bm/database/firestore.dart';
 import 'package:match_bm/pages/user_home.dart';
 
+import '../child_selector.dart';
 import '../models/user_model.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -60,6 +61,7 @@ class _SignUpState extends State<SignUp> {
         UserModel userModel = UserModel(_emailController.text,
             _firstNameController.text, _lastNameController.text);
         FireStore.insertUser(userModel, value.user!.uid);
+        ChildSelector().child.value = null;
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => UserHome()));
       });

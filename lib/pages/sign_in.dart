@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:match_bm/child_selector.dart';
 import 'package:match_bm/components/app_button.dart';
 import 'package:match_bm/components/page_title.dart';
 import 'package:match_bm/pages/user_home.dart';
@@ -45,6 +46,7 @@ class _SignInState extends State<SignIn> {
           .signInWithEmailAndPassword(
               email: _emailController.text, password: _passwordController.text)
           .then((value) {
+        ChildSelector().child.value = null;
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => UserHome()));
       });

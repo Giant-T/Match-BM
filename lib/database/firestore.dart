@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:match_bm/models/child.dart';
 import 'package:match_bm/models/user_model.dart';
@@ -57,5 +59,32 @@ class FireStore {
   /// Supprime un enfant de la base de donnees
   static Future<void> deleteChild(Child child) async {
     await childCollection.doc(child.ref).delete();
+  }
+
+  /// Cherche un enfant aleatoire qui n'est pas du meme parent.
+  static Future<Child?> getMatch(String parentUid) async {
+    return childCollection
+        .where("parent", isNotEqualTo: userCollection.doc(parentUid))
+        .get()
+        .then((value) {
+      if (value.docs.isEmpty) return null;
+
+      Random rng = Random();
+
+      var c = value.docs[rng.nextInt(value.docs.length - 1)];
+
+      print(c);
+
+      return Child(
+          c.get("firstname"),
+          c.get("lastname"),
+          c.get("description"),
+          c.get("birthdate"),
+          c.get("parent"),
+          c.get("likes").isEmpty
+              ? List<DocumentReference>.empty()
+              : c.get("likes"),
+          ref: c.id);
+    });
   }
 }

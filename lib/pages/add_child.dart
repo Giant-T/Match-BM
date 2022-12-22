@@ -46,7 +46,7 @@ class _AddChildState extends State<AddChild> {
         Timestamp.fromDate(birthdate),
         FireStore.userCollection.doc(_auth.currentUser!.uid),
         [])).then((value) {
-      Navigator.push(
+      Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => UserHome()));
     });
   }

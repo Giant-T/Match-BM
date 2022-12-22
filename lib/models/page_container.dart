@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:match_bm/child_selector.dart';
+import 'package:match_bm/pages/matching.dart';
 import 'package:match_bm/pages/user_home.dart';
 
 import 'child.dart';
@@ -19,7 +20,7 @@ class PageContainer extends StatelessWidget {
           title: ValueListenableBuilder<Child?>(
             valueListenable: ChildSelector().child,
             builder: ((context, value, child) => Text(value == null
-                ? "Aucun enfant selectionné"
+                ? "Aucun enfant sélectionné"
                 : "${value.firstname} ${value.lastname}")),
           )),
       bottomNavigationBar: BottomAppBar(
@@ -40,7 +41,10 @@ class PageContainer extends StatelessWidget {
               icon: const Icon(
                 Icons.account_circle,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: ((context) => const Matching())));
+              },
             ),
             IconButton(
               icon: const Icon(

@@ -44,7 +44,7 @@ class UserHome extends StatelessWidget {
                   AppButton(
                       text: "Ajouter un enfant",
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const AddChild()));
